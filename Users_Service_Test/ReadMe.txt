@@ -1,0 +1,2 @@
+﻿Please run Add_Edit_Users_Test.cs test cases before DeleteUser.cs test cases because Add_Edit_Users_Test.cs will create/Edit user details in XML file in service project.
+DeleteUser.cs test cases will take the first user details as default in XML file(from WCF service project) and will delete the details so the test case woun't fail.

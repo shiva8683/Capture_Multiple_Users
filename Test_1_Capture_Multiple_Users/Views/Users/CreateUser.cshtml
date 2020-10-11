@@ -1,0 +1,88 @@
+﻿@model IEnumerable<Test_1_Capture_Multiple_Users.Users.UserDTO>
+
+@{
+    ViewBag.Title = "CreateUser";
+}
+<div class="">
+    <div class="row">
+        <div class="col">
+            <h1>Create User</h1>
+        </div>
+        <div class="col-auto float-right align-self-end">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index","Users")"><i class="fa fa-home"></i>Home</a></li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</div>
+@using (Html.BeginForm("CreateUser", "Users", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <table id="formTable">
+        <thead>
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Cell Number</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (!Model.Any())
+            {
+                <tr>
+                    <td>
+                        <input class="form-control text-box single-line" id="@nameof(Test_1_Capture_Multiple_Users.Users.UserDTO.FirstName)"
+                               name="@nameof(Test_1_Capture_Multiple_Users.Users.UserDTO.FirstName)" type="text">
+                    </td>
+                    <td>
+                        <input class="form-control text-box single-line" id="@nameof(Test_1_Capture_Multiple_Users.Users.UserDTO.LastName)"
+                               name="@nameof(Test_1_Capture_Multiple_Users.Users.UserDTO.LastName)" type="text">
+                    </td>
+                    <td>
+                        <input class="form-control text-box single-line" id="@nameof(Test_1_Capture_Multiple_Users.Users.UserDTO.Cellphone)"
+                               name="@nameof(Test_1_Capture_Multiple_Users.Users.UserDTO.Cellphone)" type="text">
+                    </td>
+                </tr>
+            }
+            else
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.EditorFor(model => item.FirstName, new { htmlAttributes = new { @class = "form-control", Name = "" + nameof(item.FirstName) + "" } })
+                        </td>
+                        <td>
+                            @Html.EditorFor(model => item.LastName, new { htmlAttributes = new { @class = "form-control", Name = "" + nameof(item.LastName) + "" } })
+                        </td>
+                        <td>
+                            @Html.EditorFor(model => item.Cellphone, new { htmlAttributes = new { @class = "form-control", Name = "" + nameof(item.Cellphone) + "" } })
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+    <div class="pt-3">
+        <div class="col-md-offset-2">
+            <button type="button" class="btn btn-primary" onclick="addRow()"><i class="fa fa-plus" aria-hidden="true"></i> &nbsp;Add Row</button>
+
+            <button type="submit" class="btn btn-success"><i class="fa fa-floppy-o" aria-hidden="true"></i>&nbsp;Save Details</button>
+        </div>
+    </div>
+    <div class="row pt-2 red">
+        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+    </div>
+}
+
+<script type="text/javascript">
+    function addRow() {
+        //copy the table row and clear the value of the input, then append the row to the end of the table
+        $("#formTable tbody tr:first").clone().find("input").each(function () {
+            $(this).val('');
+        }).end().appendTo("#formTable");
+    }
+</script>
